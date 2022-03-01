@@ -8,9 +8,11 @@ public class MovieCollection
 {
   private ArrayList<Movie> movies;
   private Scanner scanner;
+  private String fileNames;
 
   public MovieCollection(String fileName)
   {
+    this.fileNames = fileName;
     importMovieList(fileName);
     scanner = new Scanner(System.in);
   }
@@ -147,6 +149,23 @@ public class MovieCollection
       listToSort.set(possibleIndex, temp);
     }
   }
+
+  private void sortResults2(ArrayList<String> listToSort)
+  {
+    for (int j = 1; j < listToSort.size(); j++)
+    {
+
+      String tempTitle = listToSort.get(j);
+
+      int possibleIndex = j;
+      while (possibleIndex > 0 && tempTitle.compareTo(listToSort.get(possibleIndex - 1)) < 0)
+      {
+        listToSort.set(possibleIndex, listToSort.get(possibleIndex - 1));
+        possibleIndex--;
+      }
+      listToSort.set(possibleIndex, tempTitle);
+    }
+  }
   
   private void displayMovieInfo(Movie movie)
   {
@@ -171,7 +190,7 @@ public class MovieCollection
     searchTerm = searchTerm.toLowerCase();
 
     // arraylist to hold search results
-    ArrayList<Movie> results = new ArrayList<Movie>();
+    ArrayList<String> results = new ArrayList<String>();
     for (int i = 0; i < movies.size(); i++)
     {
       String cast = movies.get(i).getCast();
@@ -180,36 +199,60 @@ public class MovieCollection
       if (cast.indexOf(searchTerm) != -1)
       {
         //add the Movie objest to the results list
-        results.add(movies.get(i));
+        int index = cast.indexOf(searchTerm);
+        try
+        {
+          FileReader fileReader = new FileReader(fileNames);
+          BufferedReader bufferedReader = new BufferedReader(fileReader);
+          String line = bufferedReader.readLine();
+
+
+            String[] castFromCSV = line.split("//|");
+
+            String name = castFromCSV[index];
+            results.add(name);
+            sortResults2(results);
+
+            // now, display them all to the user
+            for (int k = 0; i < results.size(); i++)
+            {
+              String casts = results.get(k);
+
+              // this will print index 0 as choice 1 in the results list; better for user!
+              int choiceNum = k + 1;
+
+              System.out.println("" + choiceNum + ". " + casts);
+            }
+            System.out.println("\n ** Press Enter to Return to Main Menu **");
+            scanner.nextLine();
+        }
+        catch(IOException exception)
+        {
+          // Print out the exception that occurred
+          System.out.println("Unable to access " + exception.getMessage());
+        }
+
       }
     }
 
     // sort the results by title
-    sortResults(results);
-
-    // now, display them all to the user
-    for (int i = 0; i < results.size(); i++)
-    {
-      String cast = results.get(i).getCast();
-
-      // this will print index 0 as choice 1 in the results list; better for user!
-      int choiceNum = i + 1;
-
-      System.out.println("" + choiceNum + ". " + cast);
-    }
-
-    System.out.println("Which movie would you like to learn more about?");
-    System.out.print("Enter number: ");
-
-    int choice = scanner.nextInt();
-    scanner.nextLine();
-
-    Movie selectedMovie = results.get(choice - 1);
-
-    displayMovieInfo(selectedMovie);
-
-    System.out.println("\n ** Press Enter to Return to Main Menu **");
-    scanner.nextLine();
+//    sortResults2(results);
+//
+//    // now, display them all to the user
+//    for (int i = 0; i < results.size(); i++)
+//    {
+//      String cast = results.get(i);
+//
+//      // this will print index 0 as choice 1 in the results list; better for user!
+//      int choiceNum = i + 1;
+//
+//      System.out.println("" + choiceNum + ". " + cast);
+//    }
+//
+//
+//
+//    System.out.println("\n ** Press Enter to Return to Main Menu **");
+//    scanner.nextLine();
   }
 
   private void searchKeywords()
