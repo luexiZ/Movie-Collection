@@ -110,25 +110,32 @@ public class MovieCollection
     sortResults(results);
 
     // now, display them all to the user
-    for (int i = 0; i < results.size(); i++)
+    if(!results.isEmpty())
     {
-      String title = results.get(i).getTitle();
+      for (int i = 0; i < results.size(); i++)
+      {
+        String title = results.get(i).getTitle();
 
-      // this will print index 0 as choice 1 in the results list; better for user!
-      int choiceNum = i + 1;
+        // this will print index 0 as choice 1 in the results list; better for user!
+        int choiceNum = i + 1;
 
-      System.out.println("" + choiceNum + ". " + title);
+        System.out.println("" + choiceNum + ". " + title);
+      }
+
+      System.out.println("Which movie would you like to learn more about?");
+      System.out.print("Enter number: ");
+
+      int choice = scanner.nextInt();
+      scanner.nextLine();
+
+      Movie selectedMovie = results.get(choice - 1);
+
+      displayMovieInfo(selectedMovie);
     }
-
-    System.out.println("Which movie would you like to learn more about?");
-    System.out.print("Enter number: ");
-
-    int choice = scanner.nextInt();
-    scanner.nextLine();
-
-    Movie selectedMovie = results.get(choice - 1);
-
-    displayMovieInfo(selectedMovie);
+    else
+    {
+      System.out.print("Match Not Found!");
+    }
 
     System.out.println("\n ** Press Enter to Return to Main Menu **");
     scanner.nextLine();
@@ -224,38 +231,46 @@ public class MovieCollection
       choiceNum++;
     }
 
-    System.out.println("Which would you like to see all movies for?");
-    System.out.print("Enter number: ");
-
-    choiceNum = scanner.nextInt();
-    scanner.nextLine();
-
-    ArrayList<Movie> listOfMovies = new ArrayList<Movie>();
-    for(int i = 0; i < movies.size(); i++)
+    if(!listsOfNames.isEmpty())
     {
-      if(movies.get(i).getCast().contains(listsOfNames.get(choiceNum - 1)))
+      System.out.println("Which would you like to see all movies for?");
+      System.out.print("Enter number: ");
+
+      choiceNum = scanner.nextInt();
+      scanner.nextLine();
+
+      ArrayList<Movie> listOfMovies = new ArrayList<Movie>();
+      for(int i = 0; i < movies.size(); i++)
       {
-        listOfMovies.add(movies.get(i));
+        if(movies.get(i).getCast().contains(listsOfNames.get(choiceNum - 1)))
+        {
+          listOfMovies.add(movies.get(i));
+        }
       }
-    }
 
-    sortResults(listOfMovies);
-    for (int i = 0; i < listOfMovies.size(); i++)
+      sortResults(listOfMovies);
+      for (int i = 0; i < listOfMovies.size(); i++)
+      {
+        String title = listOfMovies.get(i).getTitle();
+        // this will print index 0 as choice 1 in the results list; better for user!
+        int num = i + 1;
+        System.out.println("" + num + ". " + title);
+      }
+
+      System.out.println("Which movie would you like to learn more about?");
+      System.out.print("Enter number: ");
+
+      int choice = scanner.nextInt();
+      scanner.nextLine();
+
+      Movie selectedMovie = listOfMovies.get(choice - 1);
+      displayMovieInfo(selectedMovie);
+    }
+    else
     {
-      String title = listOfMovies.get(i).getTitle();
-      // this will print index 0 as choice 1 in the results list; better for user!
-      int num = i + 1;
-      System.out.println("" + num + ". " + title);
+      System.out.print("Match Not Found!");
     }
-
-    System.out.println("Which movie would you like to learn more about?");
-    System.out.print("Enter number: ");
-
-    int choice = scanner.nextInt();
-    scanner.nextLine();
-
-    Movie selectedMovie = listOfMovies.get(choice - 1);
-    displayMovieInfo(selectedMovie);
+//
     System.out.println("\n ** Press Enter to Return to Main Menu **");
     scanner.nextLine();
   }
@@ -288,24 +303,31 @@ public class MovieCollection
     sortResults(results);
 
     // now, display them all to the user
-    for (int i = 0; i < results.size(); i++)
+    if(!results.isEmpty())
     {
-      String title = results.get(i).getTitle();
+      for (int i = 0; i < results.size(); i++)
+      {
+        String title = results.get(i).getTitle();
 
-      // this will print index 0 as choice 1 in the results list; better for user!
-      int choiceNum = i + 1;
+        // this will print index 0 as choice 1 in the results list; better for user!
+        int choiceNum = i + 1;
 
-      System.out.println("" + choiceNum + ". " + title);
+        System.out.println("" + choiceNum + ". " + title);
+      }
+      System.out.println("Which movie would you like to learn more about?");
+      System.out.print("Enter number: ");
+
+      int choice = scanner.nextInt();
+      scanner.nextLine();
+
+      Movie selectedMovie = results.get(choice - 1);
+
+      displayMovieInfo(selectedMovie);
     }
-    System.out.println("Which movie would you like to learn more about?");
-    System.out.print("Enter number: ");
-
-    int choice = scanner.nextInt();
-    scanner.nextLine();
-
-    Movie selectedMovie = results.get(choice - 1);
-
-    displayMovieInfo(selectedMovie);
+    else
+    {
+      System.out.print("Match Not Found!");
+    }
 
     System.out.println("\n ** Press Enter to Return to Main Menu **");
     scanner.nextLine();
